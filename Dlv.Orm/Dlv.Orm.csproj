@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <WarningsAsErrors>nullable</WarningsAsErrors>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <Version>0.0.1-alpha</Version>
+
+        <Title>Dlv Orm</Title>
+        <Summary>A performant, reflection-less, ergonomic ORM inspired by Diesel</Summary>
+        <Description>A performant, reflection-less, ergonomic ORM</Description>
+        <PackageTags>ORM</PackageTags>
+        <Authors>lfpraca</Authors>
+
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Npgsql" Version="8.0.3" />
+    </ItemGroup>
+
+</Project>
