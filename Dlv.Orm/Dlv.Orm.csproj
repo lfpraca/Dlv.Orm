@@ -15,6 +15,7 @@
         <Authors>lfpraca</Authors>
         <PackageProjectUrl>https://github.com/lfpraca/Dlv.Orm</PackageProjectUrl>
         <RepositoryUrl>https://github.com/lfpraca/Dlv.Orm</RepositoryUrl>
+        <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
 
     </PropertyGroup>
 
