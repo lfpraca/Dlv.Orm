@@ -13,6 +13,8 @@
         <Description>A performant, reflection-less, ergonomic ORM</Description>
         <PackageTags>ORM</PackageTags>
         <Authors>lfpraca</Authors>
+        <PackageProjectUrl>https://github.com/lfpraca/Dlv.Orm</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/lfpraca/Dlv.Orm</RepositoryUrl>
 
     </PropertyGroup>
 
