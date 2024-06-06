@@ -6,7 +6,7 @@
         <Nullable>enable</Nullable>
         <WarningsAsErrors>nullable</WarningsAsErrors>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <Version>0.0.1-prealpha</Version>
+        <Version>0.0.1-prealpha.1</Version>
 
         <Title>Dlv Orm</Title>
         <Summary>A performant, reflection-less, ergonomic ORM inspired by Diesel</Summary>
