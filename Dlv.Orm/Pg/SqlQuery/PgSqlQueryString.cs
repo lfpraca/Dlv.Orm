@@ -4,7 +4,7 @@ using Npgsql;
 
 namespace Dlv.Orm.Pg.SqlQuery;
 
-public class PgSqlQueryString<Query>: PgQueryFragment, PgBoxedSqlQuery
+public class PgSqlQueryString<Query>: PgQueryFragment, PgBoxedSqlQuery, PgRunQueryNamedRow
     where Query : PgQueryFragment {
     private Query inner = default!;
     private string query = null!;
@@ -53,7 +53,27 @@ public class PgSqlQueryString<Query>: PgQueryFragment, PgBoxedSqlQuery
     }
 
     public Task<int> Execute(NpgsqlConnection conn) {
-        return PgRunQueryDefaults.Execute<PgSqlQueryString<Query>>(conn, this);
+        return PgRunQueryDefaults.Execute(conn, this);
+    }
+
+    public Task<T> GetResult<T>(NpgsqlConnection conn) where T : QueryableByName<T> {
+        return PgRunQueryDefaults.GetResult<T, PgSqlQueryString<Query>>(conn, this);
+    }
+
+    public Task<T?> GetResultOptional<T>(NpgsqlConnection conn) where T : QueryableByName<T> {
+        return PgRunQueryDefaults.GetResultOptional<T, PgSqlQueryString<Query>>(conn, this);
+    }
+
+    public Task<List<T>> LoadScalars<T>(NpgsqlConnection conn) {
+        return PgRunQueryDefaults.LoadScalars<T, PgSqlQueryString<Query>>(conn, this);
+    }
+
+    public Task<T> GetScalar<T>(NpgsqlConnection conn) {
+        return PgRunQueryDefaults.GetScalar<T, PgSqlQueryString<Query>>(conn, this);
+    }
+
+    public Task<T?> GetScalarOptional<T>(NpgsqlConnection conn) {
+        return PgRunQueryDefaults.GetScalarOptional<T, PgSqlQueryString<Query>>(conn, this);
     }
 }
 
