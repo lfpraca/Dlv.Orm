@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Dlv.Orm.SourceGen\Dlv.Orm.SourceGen.csproj" OutputItemType="Analyzer" />
     <ProjectReference Include="..\Dlv.Orm\Dlv.Orm.csproj" />
   </ItemGroup>
 

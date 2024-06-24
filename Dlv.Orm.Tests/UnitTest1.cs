@@ -1,7 +1,9 @@
+using Dlv.Orm.Annotations;
 using Dlv.Orm.Core.Wrappers;
 using Dlv.Orm.Pg;
 using Dlv.Orm.Pg.Interfaces;
 using Dlv.Orm.Pg.SqlQuery;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dlv.Orm.Tests; 
 public class Tests {
@@ -43,4 +45,13 @@ public class Tests {
             //Assert.That(binds.Finish(), Is.EquivalentTo(new object?[] { value.Wn(), number.W() }));
         });
     }
+}
+
+
+[DeriveQueryableByName]
+public partial class DeriveTarget {
+    [Column("my_int")]
+    public int MyInt { get; set; }
+    [Column("my_string")]
+    public string MyString { get; set; } = null!;
 }

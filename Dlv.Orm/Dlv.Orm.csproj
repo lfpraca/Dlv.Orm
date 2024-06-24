@@ -6,7 +6,7 @@
         <Nullable>enable</Nullable>
         <WarningsAsErrors>nullable</WarningsAsErrors>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <Version>0.0.1-prealpha.2</Version>
+        <Version>0.0.2-alpha</Version>
 
         <Title>Dlv Orm</Title>
         <Summary>A performant, reflection-less, ergonomic ORM inspired by Diesel</Summary>
@@ -21,6 +21,7 @@
 
     <ItemGroup>
         <PackageReference Include="Npgsql" Version="8.0.3" />
+      <ProjectReference Include="..\Dlv.Orm.SourceGen\Dlv.Orm.SourceGen.csproj" />
     </ItemGroup>
 
 </Project>
