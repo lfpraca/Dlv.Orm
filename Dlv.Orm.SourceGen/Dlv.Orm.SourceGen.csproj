@@ -7,11 +7,11 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <WarningsAsErrors>nullable</WarningsAsErrors>
-        <Version>0.0.2-alpha</Version>
+        <Version>0.0.3-alpha</Version>
 
-        <Title>Dlv Orm Source Generators</Title>
-        <Summary>Source generators for Dlv Orm</Summary>
-        <Description>Source generators for Dlv Orm</Description>
+        <Title>Dlv ORM Source Generators</Title>
+        <Summary>Source generators for Dlv ORM</Summary>
+        <Description>Source generators for Dlv ORM</Description>
         <PackageTags>ORM</PackageTags>
         <Authors>lfpraca</Authors>
         <PackageProjectUrl>https://github.com/lfpraca/Dlv.Orm</PackageProjectUrl>
@@ -25,8 +25,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true"
-            PackagePath="analyzers/dotnet/cs" Visible="false" />
+        <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     </ItemGroup>
 
 </Project>

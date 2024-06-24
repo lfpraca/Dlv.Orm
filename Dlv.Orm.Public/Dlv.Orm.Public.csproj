@@ -2,26 +2,24 @@
 
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
+        <LangVersion>Latest</LangVersion>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <WarningsAsErrors>nullable</WarningsAsErrors>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Version>0.0.3-alpha</Version>
 
-        <Title>Dlv ORM</Title>
-        <Summary>A performant, reflection-less, ergonomic ORM inspired by Diesel</Summary>
-        <Description>A performant, reflection-less, ergonomic ORM</Description>
+        <Title>Dlv ORM Public</Title>
+        <Summary>Public interface for Dlv ORM</Summary>
+        <Description>Public interface for Dlv ORM</Description>
         <PackageTags>ORM</PackageTags>
         <Authors>lfpraca</Authors>
         <PackageProjectUrl>https://github.com/lfpraca/Dlv.Orm</PackageProjectUrl>
         <RepositoryUrl>https://github.com/lfpraca/Dlv.Orm</RepositoryUrl>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Npgsql" Version="8.0.3" />
-        <ProjectReference Include="..\Dlv.Orm.Public\Dlv.Orm.Public.csproj" />
         <ProjectReference Include="..\Dlv.Orm.SourceGen\Dlv.Orm.SourceGen.csproj" />
     </ItemGroup>
 
