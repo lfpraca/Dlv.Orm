@@ -105,7 +105,7 @@ public class QueryableByNameDerivation: IIncrementalGenerator {
             var className = GetFullName(classDeclaration, context);
 
             string innerCode = $$"""
-                    public partial class {{className}} : Dlv.Orm.Core.Interfaces.QueryableByName<{{className}}>
+                    {{(classDeclaration.Modifiers.Any(static x => x.Kind() == SyntaxKind.InternalKeyword) ? "internal" : "public")}} partial class {{className}} : Dlv.Orm.Core.Interfaces.QueryableByName<{{className}}>
                     {
                         public static async Task<{{className}}> Build<DlvInternalRowType>(DlvInternalRowType row) where DlvInternalRowType : Dlv.Orm.Core.Interfaces.NamedRow
                         {
