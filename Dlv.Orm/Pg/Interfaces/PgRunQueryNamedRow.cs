@@ -30,6 +30,26 @@ public static class PgRunQueryDefaults {
         return results;
     }
 
+    public static async IAsyncEnumerable<T> LoadStream<T, U>(NpgsqlConnection conn, U query) where T: QueryableByName<T> where U: PgQueryFragment {
+        var queryString = PgQueryBuilder.New();
+        query.ToSql(queryString);
+        var binds = PgBindCollector.New();
+        query.CollectBinds(binds);
+
+        await conn.OpenAsync();
+
+        await using var cmd = new NpgsqlCommand(queryString.Finish(), conn);
+        foreach (var bind in binds.Finish()) {
+            bind.Bind(cmd.Parameters);
+        }
+
+        await using var reader = await cmd.ExecuteReaderAsync();
+        while (await reader.ReadAsync()) {
+            var row = PgNamedRow.New(reader);
+            yield return await T.Build(row);
+        }
+    }
+
     public static async Task<T> GetResult<T, U>(NpgsqlConnection conn, U query) where T: QueryableByName<T> where U: PgQueryFragment {
         var queryString = PgQueryBuilder.New();
         query.ToSql(queryString);
@@ -111,6 +131,25 @@ public static class PgRunQueryDefaults {
         }
 
         return results;
+    }
+
+    public static async IAsyncEnumerable<T> LoadScalarStream<T, U>(NpgsqlConnection conn, U query) where U: PgQueryFragment {
+        var queryString = PgQueryBuilder.New();
+        query.ToSql(queryString);
+        var binds = PgBindCollector.New();
+        query.CollectBinds(binds);
+
+        await conn.OpenAsync();
+
+        await using var cmd = new NpgsqlCommand(queryString.Finish(), conn);
+        foreach (var bind in binds.Finish()) {
+            bind.Bind(cmd.Parameters);
+        }
+
+        await using var reader = await cmd.ExecuteReaderAsync();
+        while (await reader.ReadAsync()) {
+            yield return await reader.GetFieldValueAsync<T>(0);
+        }
     }
 
     public static async Task<T> GetScalar<T, U>(NpgsqlConnection conn, U query) where U: PgQueryFragment {

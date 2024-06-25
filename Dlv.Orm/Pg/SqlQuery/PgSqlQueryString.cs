@@ -52,6 +52,10 @@ public class PgSqlQueryString<Query>: PgQueryFragment, PgBoxedSqlQuery, PgRunQue
         return PgRunQueryDefaults.Load<T, PgSqlQueryString<Query>>(conn, this);
     }
 
+    public IAsyncEnumerable<T> LoadStream<T>(NpgsqlConnection conn) where T : QueryableByName<T> {
+        return PgRunQueryDefaults.LoadStream<T, PgSqlQueryString<Query>>(conn, this);
+    }
+
     public Task<int> Execute(NpgsqlConnection conn) {
         return PgRunQueryDefaults.Execute(conn, this);
     }
@@ -66,6 +70,10 @@ public class PgSqlQueryString<Query>: PgQueryFragment, PgBoxedSqlQuery, PgRunQue
 
     public Task<List<T>> LoadScalars<T>(NpgsqlConnection conn) {
         return PgRunQueryDefaults.LoadScalars<T, PgSqlQueryString<Query>>(conn, this);
+    }
+
+    public IAsyncEnumerable<T> LoadScalarStream<T>(NpgsqlConnection conn) {
+        return PgRunQueryDefaults.LoadScalarStream<T, PgSqlQueryString<Query>>(conn, this);
     }
 
     public Task<T> GetScalar<T>(NpgsqlConnection conn) {
