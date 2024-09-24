@@ -1,4 +1,5 @@
 using Dlv.Orm.Core.Interfaces;
+using Dlv.Orm.Core.Wrappers;
 using Dlv.Orm.Pg.Interfaces;
 using Npgsql;
 
@@ -7,30 +8,91 @@ namespace Dlv.Orm.Pg.SqlQuery;
 public class PgSqlQuery<Query>: PgQueryFragment, PgBoxedSqlQuery, PgRunQueryNamedRow
     where Query : PgQueryFragment {
     private Query inner = default!;
-    private string query_format = null!;
-    private PgSqlType[] parameters = null!;
+    private string query = null!;
     private PgSqlQuery() { }
 
-    public static PgSqlQuery<Empty> FromQuery(string queryFormat, params PgSqlType[] parameters) {
-        return PgSqlQuery<Empty>.New(new Empty(), queryFormat, parameters);
+    public static PgSqlQuery<Empty> FromQuery(string query) {
+        return PgSqlQuery<Empty>.New(new Empty(), query);
     }
 
-    public static PgSqlQuery<Inner> New<Inner>(Inner inner, string queryFormat, params PgSqlType[] parameters)
+    public static PgSqlQuery<Inner> New<Inner>(Inner inner, string query)
         where Inner : PgQueryFragment {
         return new PgSqlQuery<Inner> {
             inner = inner,
-            query_format = queryFormat,
-            parameters = parameters,
+            query = query,
         };
     }
 
-    public PgSqlQuery<PgSqlQuery<Query>> Sql(string sqlFormat, params PgSqlType[] parameters) {
-        return PgSqlQuery<PgSqlQuery<Query>>.New(this, sqlFormat, parameters);
+    public PgSqlQuery<PgSqlQuery<Query>> Sql(string sqlFormat) {
+        return PgSqlQuery<PgSqlQuery<Query>>.New(this, sqlFormat);
     }
 
-    public PgSqlQueryString<PgSqlQuery<Query>> SqlString(string sql) {
-        return PgSqlQueryString<PgSqlQuery<Query>>.New(this, sql);
+    public UncheckedBind<PgSqlQuery<Query>> Bind<T>(T parameter) where T: PgSqlType {
+        return UncheckedBind<PgSqlQuery<Query>>.New(this, parameter);
     }
+
+    #region Overloads
+    public UncheckedBind<PgSqlQuery<Query>> Bind(bool parameter) {
+        return UncheckedBind<PgSqlQuery<Query>>.New(this, (BooleanW)parameter);
+    }
+    public UncheckedBind<PgSqlQuery<Query>> Bind(DateOnly parameter) {
+        return UncheckedBind<PgSqlQuery<Query>>.New(this, (DateOnlyW)parameter);
+    }
+    public UncheckedBind<PgSqlQuery<Query>> Bind(DateTimeOffset parameter) {
+        return UncheckedBind<PgSqlQuery<Query>>.New(this, (DateTimeOffsetW)parameter);
+    }
+    public UncheckedBind<PgSqlQuery<Query>> Bind(DateTime parameter) {
+        return UncheckedBind<PgSqlQuery<Query>>.New(this, (DateTimeW)parameter);
+    }
+    public UncheckedBind<PgSqlQuery<Query>> Bind(double parameter) {
+        return UncheckedBind<PgSqlQuery<Query>>.New(this, (DoubleW)parameter);
+    }
+    public UncheckedBind<PgSqlQuery<Query>> Bind(Guid parameter) {
+        return UncheckedBind<PgSqlQuery<Query>>.New(this, (GuidW)parameter);
+    }
+    public UncheckedBind<PgSqlQuery<Query>> Bind(short parameter) {
+        return UncheckedBind<PgSqlQuery<Query>>.New(this, (Int16W)parameter);
+    }
+    public UncheckedBind<PgSqlQuery<Query>> Bind(int parameter) {
+        return UncheckedBind<PgSqlQuery<Query>>.New(this, (Int32W)parameter);
+    }
+    public UncheckedBind<PgSqlQuery<Query>> Bind(long parameter) {
+        return UncheckedBind<PgSqlQuery<Query>>.New(this, (Int64W)parameter);
+    }
+    public UncheckedBind<PgSqlQuery<Query>> Bind(DateOnly? parameter) {
+        return UncheckedBind<PgSqlQuery<Query>>.New(this, (NullableDateOnlyW)parameter);
+    }
+    public UncheckedBind<PgSqlQuery<Query>> Bind(DateTimeOffset? parameter) {
+        return UncheckedBind<PgSqlQuery<Query>>.New(this, (NullableDateTimeOffsetW)parameter);
+    }
+    public UncheckedBind<PgSqlQuery<Query>> Bind(DateTime? parameter) {
+        return UncheckedBind<PgSqlQuery<Query>>.New(this, (NullableDateTimeW)parameter);
+    }
+    public UncheckedBind<PgSqlQuery<Query>> Bind(double? parameter) {
+        return UncheckedBind<PgSqlQuery<Query>>.New(this, (NullableDoubleW)parameter);
+    }
+    public UncheckedBind<PgSqlQuery<Query>> Bind(Guid? parameter) {
+        return UncheckedBind<PgSqlQuery<Query>>.New(this, (NullableGuidW)parameter);
+    }
+    public UncheckedBind<PgSqlQuery<Query>> Bind(short? parameter) {
+        return UncheckedBind<PgSqlQuery<Query>>.New(this, (NullableInt16W)parameter);
+    }
+    public UncheckedBind<PgSqlQuery<Query>> Bind(int? parameter) {
+        return UncheckedBind<PgSqlQuery<Query>>.New(this, (NullableInt32W)parameter);
+    }
+    public UncheckedBind<PgSqlQuery<Query>> Bind(long? parameter) {
+        return UncheckedBind<PgSqlQuery<Query>>.New(this, (NullableInt64W)parameter);
+    }
+    public UncheckedBind<PgSqlQuery<Query>> Bind(float parameter) {
+        return UncheckedBind<PgSqlQuery<Query>>.New(this, (SingleW)parameter);
+    }
+    public UncheckedBind<PgSqlQuery<Query>> Bind(float? parameter) {
+        return UncheckedBind<PgSqlQuery<Query>>.New(this, (NullableSingleW)parameter);
+    }
+    public UncheckedBind<PgSqlQuery<Query>> Bind(string parameter) {
+        return UncheckedBind<PgSqlQuery<Query>>.New(this, (StringW)parameter);
+    }
+    #endregion
 
     public PgBoxedSqlQuery IntoBoxed() {
         return this;
@@ -38,21 +100,100 @@ public class PgSqlQuery<Query>: PgQueryFragment, PgBoxedSqlQuery, PgRunQueryName
 
     public void CollectBinds(PgBindCollector outBinds) {
         this.inner.CollectBinds(outBinds);
-        outBinds.Extend(this.parameters);
     }
 
     public void ToSql(PgQueryBuilder outSql) {
         this.inner.ToSql(outSql);
-        outSql.PushFormat(this.query_format, (uint)this.parameters.Length);
+        outSql.PushSql(this.query);
     }
 
-    PgBoxedSqlQuery PgBoxedSqlQuery.SqlString(string sql) {
-        return this.SqlString(sql);
+    PgBoxedSqlQuery PgBoxedSqlQuery.Sql(string sqlFormat) {
+        return this.Sql(sqlFormat);
     }
 
-    PgBoxedSqlQuery PgBoxedSqlQuery.Sql(string sqlFormat, params PgSqlType[] parameters) {
-        return this.Sql(sqlFormat, parameters);
+    PgBoxedSqlQuery PgBoxedSqlQuery.Bind<T>(T parameter) {
+        return this.Bind(parameter);
     }
+
+    #region Overloads
+    PgBoxedSqlQuery PgBoxedSqlQuery.Bind(bool parameter) {
+        return this.Bind(parameter);
+    }
+    PgBoxedSqlQuery PgBoxedSqlQuery.Bind(DateOnly parameter) {
+        return this.Bind(parameter);
+    }
+    PgBoxedSqlQuery PgBoxedSqlQuery.Bind(DateTimeOffset parameter) {
+        return this.Bind(parameter);
+    }
+
+    PgBoxedSqlQuery PgBoxedSqlQuery.Bind(DateTime parameter) {
+        return this.Bind(parameter);
+    }
+
+    PgBoxedSqlQuery PgBoxedSqlQuery.Bind(double parameter) {
+        return this.Bind(parameter);
+    }
+
+    PgBoxedSqlQuery PgBoxedSqlQuery.Bind(Guid parameter) {
+        return this.Bind(parameter);
+    }
+
+    PgBoxedSqlQuery PgBoxedSqlQuery.Bind(short parameter) {
+        return this.Bind(parameter);
+    }
+
+    PgBoxedSqlQuery PgBoxedSqlQuery.Bind(int parameter) {
+        return this.Bind(parameter);
+    }
+
+    PgBoxedSqlQuery PgBoxedSqlQuery.Bind(long parameter) {
+        return this.Bind(parameter);
+    }
+
+    PgBoxedSqlQuery PgBoxedSqlQuery.Bind(DateOnly? parameter) {
+        return this.Bind(parameter);
+    }
+
+    PgBoxedSqlQuery PgBoxedSqlQuery.Bind(DateTimeOffset? parameter) {
+        return this.Bind(parameter);
+    }
+
+    PgBoxedSqlQuery PgBoxedSqlQuery.Bind(DateTime? parameter) {
+        return this.Bind(parameter);
+    }
+
+    PgBoxedSqlQuery PgBoxedSqlQuery.Bind(double? parameter) {
+        return this.Bind(parameter);
+    }
+
+    PgBoxedSqlQuery PgBoxedSqlQuery.Bind(Guid? parameter) {
+        return this.Bind(parameter);
+    }
+
+    PgBoxedSqlQuery PgBoxedSqlQuery.Bind(short? parameter) {
+        return this.Bind(parameter);
+    }
+
+    PgBoxedSqlQuery PgBoxedSqlQuery.Bind(int? parameter) {
+        return this.Bind(parameter);
+    }
+
+    PgBoxedSqlQuery PgBoxedSqlQuery.Bind(long? parameter) {
+        return this.Bind(parameter);
+    }
+
+    PgBoxedSqlQuery PgBoxedSqlQuery.Bind(float parameter) {
+        return this.Bind(parameter);
+    }
+
+    PgBoxedSqlQuery PgBoxedSqlQuery.Bind(float? parameter) {
+        return this.Bind(parameter);
+    }
+
+    PgBoxedSqlQuery PgBoxedSqlQuery.Bind(string parameter) {
+        return this.Bind(parameter);
+    }
+    #endregion
 
     public Task<List<T>> Load<T>(NpgsqlConnection conn) where T : QueryableByName<T> {
         return PgRunQueryDefaults.Load<T, PgSqlQuery<Query>>(conn, this);
@@ -89,10 +230,11 @@ public class PgSqlQuery<Query>: PgQueryFragment, PgBoxedSqlQuery, PgRunQueryName
     public Task<T?> GetScalarOptional<T>(NpgsqlConnection conn) {
         return PgRunQueryDefaults.GetScalarOptional<T, PgSqlQuery<Query>>(conn, this);
     }
+
 }
 public static class SqlQuery {
-    public static PgSqlQuery<Empty> FromQuery(string queryFormat, params PgSqlType[] parameters) {
-        return PgSqlQuery<Empty>.FromQuery(queryFormat, parameters);
+    public static PgSqlQuery<Empty> FromQuery(string query) {
+        return PgSqlQuery<Empty>.FromQuery(query);
     }
 }
 public struct Empty: PgQueryFragment {
