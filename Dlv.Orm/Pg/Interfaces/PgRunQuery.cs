@@ -3,10 +3,10 @@ using Npgsql;
 
 namespace Dlv.Orm.Pg.Interfaces;
 
-public interface PgRunQueryNamedRow: PgQueryFragment, RunQueryNamedRow<PgQueryBuilder, PgBindCollector, NpgsqlConnection> { }
+public interface PgRunQuery: PgQueryFragment, RunQuery<PgQueryBuilder, PgBindCollector, NpgsqlConnection> { }
 
-public static class PgRunQueryNamedRowDefaults {
-    public static async Task<List<T>> Load<T, U>(NpgsqlConnection conn, U query) where T: QueryableByName<T> where U: PgQueryFragment {
+public static class PgRunQueryDefaults {
+    public static async Task<List<T>> Load<T, U>(NpgsqlConnection conn, U query) where T: Queryable<T> where U: PgQueryFragment {
         var queryString = PgQueryBuilder.New();
         query.ToSql(queryString);
         var binds = PgBindCollector.New();
@@ -23,14 +23,14 @@ public static class PgRunQueryNamedRowDefaults {
 
         await using var reader = await cmd.ExecuteReaderAsync();
         while (await reader.ReadAsync()) {
-            var row = PgNamedRow.New(reader);
+            var row = PgRow.New(reader);
             results.Add(await T.Build(row));
         }
 
         return results;
     }
 
-    public static async IAsyncEnumerable<T> LoadStream<T, U>(NpgsqlConnection conn, U query) where T: QueryableByName<T> where U: PgQueryFragment {
+    public static async IAsyncEnumerable<T> LoadStream<T, U>(NpgsqlConnection conn, U query) where T: Queryable<T> where U: PgQueryFragment {
         var queryString = PgQueryBuilder.New();
         query.ToSql(queryString);
         var binds = PgBindCollector.New();
@@ -45,12 +45,12 @@ public static class PgRunQueryNamedRowDefaults {
 
         await using var reader = await cmd.ExecuteReaderAsync();
         while (await reader.ReadAsync()) {
-            var row = PgNamedRow.New(reader);
+            var row = PgRow.New(reader);
             yield return await T.Build(row);
         }
     }
 
-    public static async Task<T> GetResult<T, U>(NpgsqlConnection conn, U query) where T: QueryableByName<T> where U: PgQueryFragment {
+    public static async Task<T> GetResult<T, U>(NpgsqlConnection conn, U query) where T: Queryable<T> where U: PgQueryFragment {
         var queryString = PgQueryBuilder.New();
         query.ToSql(queryString);
         var binds = PgBindCollector.New();
@@ -65,14 +65,14 @@ public static class PgRunQueryNamedRowDefaults {
 
         await using var reader = await cmd.ExecuteReaderAsync();
         if (await reader.ReadAsync()) {
-            var row = PgNamedRow.New(reader);
+            var row = PgRow.New(reader);
             return await T.Build(row);
         }
 
         throw new InvalidOperationException("No results found");
     }
 
-    public static async Task<T?> GetResultOptional<T, U>(NpgsqlConnection conn, U query) where T: QueryableByName<T> where U: PgQueryFragment {
+    public static async Task<T?> GetResultOptional<T, U>(NpgsqlConnection conn, U query) where T: Queryable<T> where U: PgQueryFragment {
         var queryString = PgQueryBuilder.New();
         query.ToSql(queryString);
         var binds = PgBindCollector.New();
@@ -87,7 +87,7 @@ public static class PgRunQueryNamedRowDefaults {
 
         await using var reader = await cmd.ExecuteReaderAsync();
         if (await reader.ReadAsync()) {
-            var row = PgNamedRow.New(reader);
+            var row = PgRow.New(reader);
             return await T.Build(row);
         }
 

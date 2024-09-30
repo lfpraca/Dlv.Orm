@@ -191,38 +191,38 @@ public class UncheckedBind<Query>: PgQueryFragment, PgBoxedSqlQuery, PgRunQueryN
     #endregion
 
     public Task<List<T>> Load<T>(NpgsqlConnection conn) where T : QueryableByName<T> {
-        return PgRunQueryDefaults.Load<T, UncheckedBind<Query>>(conn, this);
+        return PgRunQueryNamedRowDefaults.Load<T, UncheckedBind<Query>>(conn, this);
     }
 
     public IAsyncEnumerable<T> LoadStream<T>(NpgsqlConnection conn) where T : QueryableByName<T> {
-        return PgRunQueryDefaults.LoadStream<T, UncheckedBind<Query>>(conn, this);
+        return PgRunQueryNamedRowDefaults.LoadStream<T, UncheckedBind<Query>>(conn, this);
     }
 
     public Task<int> Execute(NpgsqlConnection conn) {
-        return PgRunQueryDefaults.Execute(conn, this);
+        return PgRunQueryNamedRowDefaults.Execute(conn, this);
     }
 
     public Task<T> GetResult<T>(NpgsqlConnection conn) where T : QueryableByName<T> {
-        return PgRunQueryDefaults.GetResult<T, UncheckedBind<Query>>(conn, this);
+        return PgRunQueryNamedRowDefaults.GetResult<T, UncheckedBind<Query>>(conn, this);
     }
 
     public Task<T?> GetResultOptional<T>(NpgsqlConnection conn) where T : QueryableByName<T> {
-        return PgRunQueryDefaults.GetResultOptional<T, UncheckedBind<Query>>(conn, this);
+        return PgRunQueryNamedRowDefaults.GetResultOptional<T, UncheckedBind<Query>>(conn, this);
     }
 
     public Task<List<T>> LoadScalars<T>(NpgsqlConnection conn) {
-        return PgRunQueryDefaults.LoadScalars<T, UncheckedBind<Query>>(conn, this);
+        return PgRunQueryNamedRowDefaults.LoadScalars<T, UncheckedBind<Query>>(conn, this);
     }
 
     public IAsyncEnumerable<T> LoadScalarStream<T>(NpgsqlConnection conn) {
-        return PgRunQueryDefaults.LoadScalarStream<T, UncheckedBind<Query>>(conn, this);
+        return PgRunQueryNamedRowDefaults.LoadScalarStream<T, UncheckedBind<Query>>(conn, this);
     }
 
     public Task<T> GetScalar<T>(NpgsqlConnection conn) {
-        return PgRunQueryDefaults.GetScalar<T, UncheckedBind<Query>>(conn, this);
+        return PgRunQueryNamedRowDefaults.GetScalar<T, UncheckedBind<Query>>(conn, this);
     }
 
     public Task<T?> GetScalarOptional<T>(NpgsqlConnection conn) {
-        return PgRunQueryDefaults.GetScalarOptional<T, UncheckedBind<Query>>(conn, this);
+        return PgRunQueryNamedRowDefaults.GetScalarOptional<T, UncheckedBind<Query>>(conn, this);
     }
 }

@@ -15,6 +15,6 @@ public class PgNamedRow: NamedRow {
     }
     public async Task<T?> GetNullable<T>(string columnName) {
         var ordinal = this.reader.GetOrdinal(columnName);
-        return await this.reader.IsDBNullAsync(ordinal) ? default : await this.reader.GetFieldValueAsync<T>(ordinal);
+        return await this.reader.IsDBNullAsync(ordinal) ? default(T?) : await this.reader.GetFieldValueAsync<T>(ordinal);
     }
 }

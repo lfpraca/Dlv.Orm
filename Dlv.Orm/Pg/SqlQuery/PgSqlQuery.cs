@@ -196,44 +196,44 @@ public class PgSqlQuery<Query>: PgQueryFragment, PgBoxedSqlQuery, PgRunQueryName
     #endregion
 
     public Task<List<T>> Load<T>(NpgsqlConnection conn) where T : QueryableByName<T> {
-        return PgRunQueryDefaults.Load<T, PgSqlQuery<Query>>(conn, this);
+        return PgRunQueryNamedRowDefaults.Load<T, PgSqlQuery<Query>>(conn, this);
     }
 
     public IAsyncEnumerable<T> LoadStream<T>(NpgsqlConnection conn) where T : QueryableByName<T> {
-        return PgRunQueryDefaults.LoadStream<T, PgSqlQuery<Query>>(conn, this);
+        return PgRunQueryNamedRowDefaults.LoadStream<T, PgSqlQuery<Query>>(conn, this);
     }
 
     public Task<int> Execute(NpgsqlConnection conn) {
-        return PgRunQueryDefaults.Execute(conn, this);
+        return PgRunQueryNamedRowDefaults.Execute(conn, this);
     }
 
     public Task<T> GetResult<T>(NpgsqlConnection conn) where T : QueryableByName<T> {
-        return PgRunQueryDefaults.GetResult<T, PgSqlQuery<Query>>(conn, this);
+        return PgRunQueryNamedRowDefaults.GetResult<T, PgSqlQuery<Query>>(conn, this);
     }
 
     public Task<T?> GetResultOptional<T>(NpgsqlConnection conn) where T : QueryableByName<T> {
-        return PgRunQueryDefaults.GetResultOptional<T, PgSqlQuery<Query>>(conn, this);
+        return PgRunQueryNamedRowDefaults.GetResultOptional<T, PgSqlQuery<Query>>(conn, this);
     }
 
     public Task<List<T>> LoadScalars<T>(NpgsqlConnection conn) {
-        return PgRunQueryDefaults.LoadScalars<T, PgSqlQuery<Query>>(conn, this);
+        return PgRunQueryNamedRowDefaults.LoadScalars<T, PgSqlQuery<Query>>(conn, this);
     }
 
     public IAsyncEnumerable<T> LoadScalarStream<T>(NpgsqlConnection conn) {
-        return PgRunQueryDefaults.LoadScalarStream<T, PgSqlQuery<Query>>(conn, this);
+        return PgRunQueryNamedRowDefaults.LoadScalarStream<T, PgSqlQuery<Query>>(conn, this);
     }
 
     public Task<T> GetScalar<T>(NpgsqlConnection conn) {
-        return PgRunQueryDefaults.GetScalar<T, PgSqlQuery<Query>>(conn, this);
+        return PgRunQueryNamedRowDefaults.GetScalar<T, PgSqlQuery<Query>>(conn, this);
     }
 
     public Task<T?> GetScalarOptional<T>(NpgsqlConnection conn) {
-        return PgRunQueryDefaults.GetScalarOptional<T, PgSqlQuery<Query>>(conn, this);
+        return PgRunQueryNamedRowDefaults.GetScalarOptional<T, PgSqlQuery<Query>>(conn, this);
     }
 
 }
 public static class SqlQuery {
-    public static PgSqlQuery<Empty> FromQuery(string query) {
+    public static PgSqlQuery<Empty> New(string query) {
         return PgSqlQuery<Empty>.FromQuery(query);
     }
 }

@@ -36,5 +36,11 @@ public partial class PgQueryBuilder: Core.Interfaces.QueryBuilder {
         this.bind_idx += 1;
     }
 
+    public void PushIdentifier(string identifier) {
+        _ = this.buffer.Append('"');
+        foreach (var c in identifier) { _ = c == '"' ? this.buffer.Append("\"\"") : this.buffer.Append(c); }
+        _ = this.buffer.Append('"');
+    }
+
     public string Finish() { return this.buffer.ToString(); }
 }
