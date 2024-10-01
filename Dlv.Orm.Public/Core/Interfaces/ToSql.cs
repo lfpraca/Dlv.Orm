@@ -1,5 +1,5 @@
 namespace Dlv.Orm.Core.Interfaces;
 
-public interface SqlType<TParameterCollection> {
+public interface ToSql<TParameterCollection> {
     public void Bind(TParameterCollection parameterCollection);
 }

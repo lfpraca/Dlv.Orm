@@ -5,7 +5,7 @@ using NpgsqlTypes;
 // ReSharper disable once CheckNamespace
 namespace Dlv.Orm.Core.Wrappers;
 
-public partial class NullableDateTimeW: PgSqlType {
+public partial class NullableDateTimeW: PgToSql {
     public void Bind(NpgsqlParameterCollection parameterCollection) {
         if (this.value != null) {
             var type = this.value?.Kind == DateTimeKind.Utc

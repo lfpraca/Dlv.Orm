@@ -8,10 +8,10 @@ namespace Dlv.Orm.Pg.SqlQuery;
 public class UncheckedBind<Query>: PgQueryFragment, PgBoxedSqlQuery, PgRunQueryNamedRow
     where Query : PgQueryFragment {
     private Query inner = default!;
-    private PgSqlType parameter = null!;
+    private PgToSql parameter = null!;
     private UncheckedBind() { }
 
-    internal static UncheckedBind<Inner> New<Inner>(Inner inner, PgSqlType parameter)
+    internal static UncheckedBind<Inner> New<Inner>(Inner inner, PgToSql parameter)
         where Inner : PgQueryFragment {
         return new UncheckedBind<Inner> {
             inner = inner,
@@ -23,7 +23,7 @@ public class UncheckedBind<Query>: PgQueryFragment, PgBoxedSqlQuery, PgRunQueryN
         return PgSqlQuery<UncheckedBind<Query>>.New(this, query);
     }
 
-    public UncheckedBind<UncheckedBind<Query>> Bind<T>(T parameter) where T: PgSqlType {
+    public UncheckedBind<UncheckedBind<Query>> Bind<T>(T parameter) where T: PgToSql {
         return UncheckedBind<UncheckedBind<Query>>.New(this, parameter);
     }
 

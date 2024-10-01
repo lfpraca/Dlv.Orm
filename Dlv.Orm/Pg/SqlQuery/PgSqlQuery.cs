@@ -27,7 +27,7 @@ public class PgSqlQuery<Query>: PgQueryFragment, PgBoxedSqlQuery, PgRunQueryName
         return PgSqlQuery<PgSqlQuery<Query>>.New(this, sqlFormat);
     }
 
-    public UncheckedBind<PgSqlQuery<Query>> Bind<T>(T parameter) where T: PgSqlType {
+    public UncheckedBind<PgSqlQuery<Query>> Bind<T>(T parameter) where T: PgToSql {
         return UncheckedBind<PgSqlQuery<Query>>.New(this, parameter);
     }
 

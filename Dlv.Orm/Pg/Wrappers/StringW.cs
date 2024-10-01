@@ -5,7 +5,7 @@ using NpgsqlTypes;
 // ReSharper disable once CheckNamespace
 namespace Dlv.Orm.Core.Wrappers;
 
-public partial class StringW: PgSqlType {
+public partial class StringW: PgToSql {
     public void Bind(NpgsqlParameterCollection parameterCollection) {
         _ = this.value is not null
             ? parameterCollection.AddWithValue(
