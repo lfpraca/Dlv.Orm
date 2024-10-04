@@ -1,10 +1,9 @@
-using Dlv.Orm.Core.Interfaces;
 using Dlv.Orm.Pg.Interfaces;
 using Npgsql;
 
 namespace Dlv.Orm.Pg.Insert;
 
-public class PgInsertStatement<TTable, TData>: PgQueryFragment, PgRunQuery
+public class PgInsertStatement<TTable, TData>: PgQueryFragment
     where TTable: PgTable
     where TData: Insertable<TTable> {
     private TTable table = default!;
@@ -45,22 +44,9 @@ public class PgInsertStatement<TTable, TData>: PgQueryFragment, PgRunQuery
         }
     }
 
-    public void CollectBinds(PgBindCollector outBinds) {
+    public void BindParameters(NpgsqlParameterCollection outBinds) {
         foreach (var v in this.data.SelectMany(static x => x.Values())) {
-            outBinds.Push(v);
+            v.Bind(outBinds);
         }
     }
-
-    public Task<List<T>> Load<T>(NpgsqlConnection conn) where T : Queryable<T> => throw new NotImplementedException();
-    public IAsyncEnumerable<T> LoadStream<T>(NpgsqlConnection conn) where T : Queryable<T> => throw new NotImplementedException();
-    public Task<T> GetResult<T>(NpgsqlConnection conn) where T : Queryable<T> => throw new NotImplementedException();
-    public Task<T?> GetResultOptional<T>(NpgsqlConnection conn) where T : Queryable<T> => throw new NotImplementedException();
-
-    public Task<int> Execute(NpgsqlConnection conn) {
-        return PgRunQueryDefaults.Execute(conn, this);
-    }
-    public Task<List<T>> LoadScalars<T>(NpgsqlConnection conn) => throw new NotImplementedException();
-    public IAsyncEnumerable<T> LoadScalarStream<T>(NpgsqlConnection conn) => throw new NotImplementedException();
-    public Task<T> GetScalar<T>(NpgsqlConnection conn) => throw new NotImplementedException();
-    public Task<T?> GetScalarOptional<T>(NpgsqlConnection conn) => throw new NotImplementedException();
 }

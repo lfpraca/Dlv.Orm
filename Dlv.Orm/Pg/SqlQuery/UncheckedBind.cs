@@ -1,3 +1,4 @@
+#if false
 using Dlv.Orm.Core.Interfaces;
 using Dlv.Orm.Core.Wrappers;
 using Dlv.Orm.Pg.Interfaces;
@@ -226,3 +227,4 @@ public class UncheckedBind<Query>: PgQueryFragment, PgBoxedSqlQuery, PgRunQueryN
         return PgRunQueryNamedRowDefaults.GetScalarOptional<T, UncheckedBind<Query>>(conn, this);
     }
 }
+#endif

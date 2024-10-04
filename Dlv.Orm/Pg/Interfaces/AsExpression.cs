@@ -2,7 +2,4 @@ using Npgsql;
 
 namespace Dlv.Orm.Pg.Interfaces;
 
-public interface AsExpression<T> where T: PgSqlType {
-    public void ToSqlString(PgQueryBuilder outQuery);
-    public void BindParameters(NpgsqlParameterCollection parameterCollection);
-}
+public interface AsExpression<T>: PgQueryFragment where T: PgSqlType;

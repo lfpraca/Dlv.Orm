@@ -1,3 +1,4 @@
+#if false
 namespace Dlv.Orm.Pg.Interfaces;
 
 public interface PgBoxedSqlQuery: PgRunQueryNamedRow {
@@ -27,3 +28,4 @@ public interface PgBoxedSqlQuery: PgRunQueryNamedRow {
     public PgBoxedSqlQuery Bind(string parameter);
     #endregion
 }
+#endif

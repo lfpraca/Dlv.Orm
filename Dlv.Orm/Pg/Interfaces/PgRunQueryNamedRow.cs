@@ -1,3 +1,4 @@
+#if false
 using Dlv.Orm.Core.Interfaces;
 using Npgsql;
 
@@ -194,3 +195,4 @@ public static class PgRunQueryNamedRowDefaults {
         return default;
     }
 }
+#endif

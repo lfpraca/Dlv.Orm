@@ -1,3 +1,4 @@
+#if false
 using Dlv.Orm.Core.Interfaces;
 using Dlv.Orm.Core.Wrappers;
 using Dlv.Orm.Pg.Interfaces;
@@ -242,3 +243,4 @@ public struct Empty: PgQueryFragment {
 
     public void ToSql(PgQueryBuilder outSql) { }
 }
+#endif
